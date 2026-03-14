@@ -1,7 +1,13 @@
-# services/user_service/Dockerfile
+# services/movie_service/Dockerfile
 FROM ruby:3.3-alpine
 
-RUN apk add --no-cache build-base postgresql-dev nodejs yarn tzdata
+RUN apk add --no-cache \
+    build-base \
+    postgresql-dev \
+    nodejs \
+    yarn \
+    tzdata \
+    yaml-dev
 
 WORKDIR /app
 
