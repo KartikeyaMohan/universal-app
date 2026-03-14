@@ -1,0 +1,104 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - user_service
+      - movie_service
+    networks:
+      - universal-net
+      
+  postgres_user:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: user_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - user_db_data:/var/lib/postgresql/data
+    networks:
+      - universal-net
+
+  postgres_movie:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: movie_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - movie_db_data:/var/lib/postgresql/data
+    networks:
+      - universal-net
+
+  postgres_location:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: location_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - location_db_data:/var/lib/postgresql/data
+    networks:
+      - universal-net
+
+  user_service:
+    build:
+      context: .
+      dockerfile: services/user-service/Dockerfile
+    container_name: user-service
+    env_file:
+      - ./services/user-service/.env
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres_user
+    volumes:
+      - ./services/user_service:/app
+    networks:
+      - universal-net
+
+  movie_service:
+    build:
+      context: .
+      dockerfile: services/movie-service/Dockerfile
+    container_name: movie-service
+    env_file:
+      - ./services/movie-service/.env
+    ports:
+      - "3002:3002"
+    depends_on:
+      - postgres_movie
+    volumes:
+      - ./services/movie_service:/app
+    networks:
+      - universal-net
+
+  location_service:
+    build:
+      context: .
+      dockerfile: services/location-service/Dockerfile
+    container_name: location-service
+    env_file:
+      - ./services/location-service/.env
+    ports:
+      - "3003:3003"
+    depends_on:
+      - postgres_location
+    volumes:
+      - ./services/location_service:/app
+    networks:
+      - universal-net
+
+volumes:
+  user_db_data:
+  movie_db_data:
+  location_db_data:
+
+networks:
+  universal-net:
+    driver: bridge
