@@ -8,10 +8,12 @@
 /spec/examples.txt
 /test/tmp/
 /test/version_tmp/
-/tmp/
 
 # Used by dotenv library to load environment variables.
 .env
+.env.*
+node_modules
+vendor/bundle
 
 # Ignore Byebug command history file.
 .byebug_history
@@ -54,3 +56,27 @@ build-iPhoneSimulator/
 
 # Used by RuboCop. Remote config files pulled in from inherit_from directive.
 # .rubocop-https?--*
+
+/services/movie-service/log/*
+!/services/movie-service/log/.keep
+
+/services/movie-service/tmp/*
+!/services/movie-service/tmp/.keep
+!/services/movie-service/tmp/pids/.keep
+!/services/movie-service/tmp/storage/.keep
+
+/services/user-service/log/*
+!/services/user-service/log/.keep
+
+/services/user-service/tmp/*
+!/services/user-service/tmp/.keep
+!/services/user-service/tmp/pids/.keep
+!/services/user-service/tmp/storage/.keep
+
+/services/location-service/log/*
+!/services/location-service/log/.keep
+
+/services/location-service/tmp/*
+!/services/location-service/tmp/.keep
+!/services/location-service/tmp/pids/.keep
+!/services/location-service/tmp/storage/.keep
