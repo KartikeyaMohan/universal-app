@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :movies
       resources :movie_images
-      resources :movie_casts
+      resources :casts
       resources :movie_details
     end
   end

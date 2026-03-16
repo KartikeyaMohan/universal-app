@@ -8,11 +8,12 @@ module Api
 
       def show
         movie_detail = MovieDetail.find(params[:id])
-        json_response(movie_detail)
+        response = movie_detail_with_url(movie_detail)
+        json_response(response)
       end
 
       def create
-        movie_detail = MovieDetail.new(create_params)
+        movie_detail = MovieDetail.new(create_params.except(:trailer))
         movie = Movie.find_by(id: create_params[:movie_id])
         return json_error_response(
           [{code: :not_found, message: 'Movie not found'}]
@@ -60,12 +61,19 @@ module Api
       private
 
       def create_params
+        params.require(:movie_id)
         params.permit(:movie_id, :trailer, :description)
-        params.require([:movie_id])
       end
 
       def update_params
         params.permit(:movie_id, :trailer, :description)
+      end
+
+      def movie_detail_with_url(movie_detail)
+        movie_detail.as_json.merge(
+          trailer_url: movie_detail.trailer_key.present? ?
+            S3Uploader.new.presigned_url(key: movie_detail.trailer_key) : nil
+        )
       end
     end
   end

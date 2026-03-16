@@ -5,7 +5,11 @@ module Api
         movies = Movie
                   .page(index_params[:page] || 1)
                   .per(index_params[:limit] || 10)
-        data = movies.map { |movie| movie_with_url(movie) }
+        data = movies.map { |movie| {
+          name: movie.name,
+          rating: movie.rating,
+          hero_image_url: movie.hero_image_key.present? ? S3Uploader.new.presigned_url(key: movie.hero_image_key) : nil
+        } }
         json_response({
           data: ,
           meta: {
@@ -20,7 +24,26 @@ module Api
 
       def show
         movie = Movie.find(params[:id])
-        response = movie_with_url(movie)
+        s3 = S3Uploader.new
+        response = {
+          name: movie.name,
+          rating: movie.rating,
+          hero_image_url: movie.hero_image_key.present? ? s3.presigned_url(key: movie.hero_image_key) : nil
+        }
+        movie_detail = movie.movie_detail
+        response.merge!({
+          description: movie_detail.description,
+          trailer_url: movie_detail.trailer_key.present? ? s3.presigned_url(key: movie_detail.trailer_key) : nil
+        }) if movie_detail.present?
+
+        casts = []
+        movie.casts.each do |cast|
+          image_url = cast.image_key.present? ? s3.presigned_url(key: cast.image_key) : nil
+          casts << { name: cast.name, image_url: image_url, cast_type: cast.cast_type }
+        end
+
+        response.merge!({casts: })
+
         json_response(response)
       end
 
@@ -72,13 +95,6 @@ module Api
 
       def update_params
         params.permit(:name, :hero_image, :rating)
-      end
-
-      def movie_with_url(movie)
-        movie.as_json.merge(
-          hero_image_url: movie.hero_image_key.present? ?
-            S3Uploader.new.presigned_url(key: movie.hero_image_key) : nil
-        )
       end
     end
   end
