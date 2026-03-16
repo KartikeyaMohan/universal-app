@@ -16,5 +16,5 @@ RUN bundle install --jobs 4 --retry 3
 
 COPY . .
 
-EXPOSE 3000
-CMD ["rails", "server", "-b", "0.0.0.0"]
+EXPOSE 3002
+CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3002"]
