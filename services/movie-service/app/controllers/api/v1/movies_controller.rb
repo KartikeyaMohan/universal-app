@@ -6,12 +6,13 @@ module Api
                   .page(index_params[:page] || 1)
                   .per(index_params[:limit] || 10)
         data = movies.map { |movie| {
+          id: movie.id,
           name: movie.name,
           rating: movie.rating,
           hero_image_url: movie.hero_image_key.present? ? S3Uploader.new.presigned_url(key: movie.hero_image_key) : nil
         } }
         json_response({
-          data: ,
+          list: data,
           meta: {
             current_page: movies.current_page,
             next_page: movies.next_page,
@@ -26,6 +27,7 @@ module Api
         movie = Movie.find(params[:id])
         s3 = S3Uploader.new
         response = {
+          id: movie.id,
           name: movie.name,
           rating: movie.rating,
           hero_image_url: movie.hero_image_key.present? ? s3.presigned_url(key: movie.hero_image_key) : nil
@@ -39,7 +41,7 @@ module Api
         casts = []
         movie.casts.each do |cast|
           image_url = cast.image_key.present? ? s3.presigned_url(key: cast.image_key) : nil
-          casts << { name: cast.name, image_url: image_url, cast_type: cast.cast_type }
+          casts << { id: cast.id, name: cast.name, image_url: image_url, cast_type: cast.cast_type.capitalize }
         end
 
         response.merge!({casts: })
