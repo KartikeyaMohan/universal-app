@@ -48,8 +48,8 @@ services:
 
   user_service:
     build:
-      context: .
-      dockerfile: services/user-service/Dockerfile
+      context: ./services/user-service
+      dockerfile: Dockerfile
     container_name: user-service
     env_file:
       - ./services/user-service/.env
@@ -58,14 +58,14 @@ services:
     depends_on:
       - postgres_user
     volumes:
-      - ./services/user_service:/app
+      - ./services/user-service:/app
     networks:
       - universal-net
 
   movie_service:
     build:
-      context: .
-      dockerfile: services/movie-service/Dockerfile
+      context: ./services/movie-service
+      dockerfile: Dockerfile
     container_name: movie-service
     env_file:
       - ./services/movie-service/.env
@@ -74,14 +74,14 @@ services:
     depends_on:
       - postgres_movie
     volumes:
-      - ./services/movie_service:/app
+      - ./services/movie-service:/app
     networks:
       - universal-net
 
   location_service:
     build:
-      context: .
-      dockerfile: services/location-service/Dockerfile
+      context: ./services/location-service
+      dockerfile: Dockerfile
     container_name: location-service
     env_file:
       - ./services/location-service/.env
@@ -90,7 +90,7 @@ services:
     depends_on:
       - postgres_location
     volumes:
-      - ./services/location_service:/app
+      - ./services/location-service:/app
     networks:
       - universal-net
 
