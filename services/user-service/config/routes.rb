@@ -11,4 +11,18 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  namespace :api do
+    namespace :v1 do
+      namespace :auth do
+        post :register
+        post :login
+        post :refresh
+      end
+
+      namespace :users do
+        get :profile
+        post :profile, to: "update_profile"
+      end
+    end
+  end
 end
