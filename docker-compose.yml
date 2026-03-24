@@ -50,7 +50,7 @@ services:
     build:
       context: ./services/user-service
       dockerfile: Dockerfile
-    container_name: user-service
+    container_name: universal-user-service
     env_file:
       - ./services/user-service/.env
     ports:
@@ -59,6 +59,7 @@ services:
       - postgres_user
     volumes:
       - ./services/user-service:/app
+      - ./shared:/shared
     networks:
       - universal-net
 
@@ -66,7 +67,7 @@ services:
     build:
       context: ./services/movie-service
       dockerfile: Dockerfile
-    container_name: movie-service
+    container_name: universal-movie-service
     env_file:
       - ./services/movie-service/.env
     ports:
@@ -75,6 +76,7 @@ services:
       - postgres_movie
     volumes:
       - ./services/movie-service:/app
+      - ./shared:/shared
     networks:
       - universal-net
 
@@ -82,7 +84,7 @@ services:
     build:
       context: ./services/location-service
       dockerfile: Dockerfile
-    container_name: location-service
+    container_name: universal-location-service
     env_file:
       - ./services/location-service/.env
     ports:
@@ -91,6 +93,7 @@ services:
       - postgres_location
     volumes:
       - ./services/location-service:/app
+      - ./shared:/shared
     networks:
       - universal-net
 
