@@ -61,6 +61,8 @@ build-iPhoneSimulator/
 !/services/movie-service/log/.keep
 
 /services/movie-service/tmp/*
+/services/movie-service/config/master.key
+/services/movie-service/config/credentials.yml.enc
 !/services/movie-service/tmp/.keep
 !/services/movie-service/tmp/pids/.keep
 !/services/movie-service/tmp/storage/.keep
@@ -69,6 +71,8 @@ build-iPhoneSimulator/
 !/services/user-service/log/.keep
 
 /services/user-service/tmp/*
+/services/user-service/config/master.key
+/services/user-service/config/credentials.yml.enc
 !/services/user-service/tmp/.keep
 !/services/user-service/tmp/pids/.keep
 !/services/user-service/tmp/storage/.keep
@@ -77,6 +81,8 @@ build-iPhoneSimulator/
 !/services/location-service/log/.keep
 
 /services/location-service/tmp/*
+/services/location-service/config/master.key
+/services/location-service/config/credentials.yml.enc
 !/services/location-service/tmp/.keep
 !/services/location-service/tmp/pids/.keep
 !/services/location-service/tmp/storage/.keep
