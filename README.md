@@ -151,11 +151,6 @@ docker compose exec location_service bin/rails db:create db:migrate
 - **API base URL (through gateway)**: `http://localhost:3000`
 - Individual service ports are commented out in `docker-compose.yml` by default; uncomment the `ports` mappings if you need direct access to `3001`–`3003` on the host.
 
-## Development notes
-
-- **Solid stack**: Each app includes Solid Cache, Solid Queue, and Solid Cable gems (Rails 8 defaults); production DB snippets in `database.yml` reference additional SQLite paths—the primary development setup in this repo targets PostgreSQL via Compose.
-- **Service README**: `services/movie-service/README.md` may contain additional service-specific notes.
-
 ---
 
 This document describes the combined layout of the **universal-app** monorepo. For changes to behavior or endpoints, refer to each service’s `config/routes.rb` and controllers under `app/controllers`.
