@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_25_111105) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_28_100229) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,5 +21,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_25_111105) do
     t.decimal "accuracy", precision: 4, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "captured_at"
   end
 end
